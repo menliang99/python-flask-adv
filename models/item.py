@@ -1,6 +1,7 @@
-from typing import Dict, List
-
+from typing import Dict, List, Union
 from db import db
+
+ItemJSON = Dict[str, Union(int, str, float)]  #string as the key,  value can be int, str, float.
 
 
 class ItemModel(db.Model):
@@ -18,7 +19,7 @@ class ItemModel(db.Model):
         self.price = price
         self.store_id = store_id
 
-    def json(self) -> Dict:
+    def json(self) -> ItemJSON:
         return {
             "id": self.id,
             "name": self.name,
