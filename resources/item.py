@@ -1,8 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import (
-    jwt_required,
-    fresh_jwt_required,
-)
+from flask_jwt_extended import jwt_required, fresh_jwt_required
 from models.item import ItemModel
 
 
@@ -24,7 +21,10 @@ class Item(Resource):
     @fresh_jwt_required
     def post(self, name: str):
         if ItemModel.find_by_name(name):
-            return {"message": "An item with name '{}' already exists.".format(name)},  400
+            return (
+                {"message": "An item with name '{}' already exists.".format(name)},
+                400,
+            )
 
         data = Item.parser.parse_args()
 
@@ -62,5 +62,4 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        return{"items": [item.json() for item in ItemModel.find_all()]}, 200
-
+        return {"items": [item.json() for item in ItemModel.find_all()]}, 200
